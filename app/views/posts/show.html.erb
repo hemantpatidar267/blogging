@@ -1,2 +1,5 @@
-<h1>Posts#show</h1>
-<p>Find me in app/views/posts/show.html.erb</p>
+<strong>id: </strong> <%= @post.id %><br />
+<strong>Tittle: </strong> <%= @post.tittle %><br />
+<strong>Context: </strong> <%= @post.context %><br />
+<strong>User_id: </strong> <%= @post.user_id %><br />
+<td><%= link_to "edit", edit_post_path(@post) %></td>

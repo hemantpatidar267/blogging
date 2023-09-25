@@ -1,3 +1,21 @@
-<h1>Posts#new</h1>
-<p>Find me in app/views/posts/new.html.erb</p>
+<h1>Post Create</h1>
+
+<%= form_with model: @post do |form| %>
+
+  <div>
+    <%= form.label :Tittle%><br>
+    <%= form.text_field :tittle %>
+  </div>
+
+  <div>
+    <%= form.label :Context %><br>
+    <%= form.text_field :context %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+
+<% end %>
+
 <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
