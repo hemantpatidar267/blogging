@@ -1,2 +1,20 @@
-<h1>Comments#new</h1>
-<p>Find me in app/views/comments/new.html.erb</p>
+<h1>Comment Create</h1>
+
+<%= form_with model: @comment do |form| %>
+
+  <div>
+    <%= form.label :context%><br>
+    <%= form.text_field :context %>
+  </div>
+
+  <div>
+    <%= hidden_field_tag 'post_id', @post.id  %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+
+<% end %>
+
+<%= button_to "Sign out", destroy_user_session_path, method: :delete %>

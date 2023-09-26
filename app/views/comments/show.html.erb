@@ -1,2 +1,8 @@
-<h1>Comments#show</h1>
-<p>Find me in app/views/comments/show.html.erb</p>
+<strong>id: </strong> <%= @comment.id %><br />
+<strong>Context: </strong> <%= @comment.context %><br />
+<strong>Post_id: </strong> <%= @comment.post_id %><br />
+<td><%= link_to "edit", edit_comment_path(@comment) %></td>
+<li><%= link_to "Destroy", comment_path(@comment), data: {
+  turbo_method: :delete,
+  turbo_confirm: "Are you sure?"
+} %></li>

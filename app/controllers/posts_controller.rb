@@ -1,10 +1,10 @@
 class PostsController < ApplicationController
   def new
-    @pst = Post.new
+    @post = Post.new
   end
 
   def create
-    @post = current_user.post.new(post_params)
+    @post = current_user.posts.new(post_params)
     if @post.save!
       redirect_to @post
     else
@@ -14,10 +14,14 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    if @post.user_id != current_user.id && current_user.role!="admin"
+      redirect_to posts_path
+    end
+    @comment = Comment.new
   end
 
   def edit
-    @post = Post.find_by(params[:id])
+    @post = Post.find(params[:id])
   end
 
   def update
@@ -29,21 +33,16 @@ class PostsController < ApplicationController
     end
   end
 
-  def search_post
-    @post =Post.where(params[:tittle])
-
-    raise if @screen.empty?
-  rescue
-    flash[:notice] = "Not found"
-    redirect_to theatres_path
-  end
-
   def index
-    @post = Post.all
+    if current_user.role == 'admin'
+      @post = Post.all
+    else
+      @post = current_user.posts
+    end
   end
 
   def destroy
-    @post = Post.find(parmas[:id])
+    @post = Post.find(params[:id])
     @post.destroy
 
     redirect_to posts_path, status: :see_other

@@ -26,10 +26,6 @@ class Users::SessionsController < Devise::SessionsController
   # end
 
   def after_sign_in_path_for(resource)
-    if current_user.role == 'admin'
-      posts_path
-    else
-     new_post_path
-    end
+    posts_path
   end
 end
