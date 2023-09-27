@@ -1,8 +1,10 @@
 <h1>Posts</h1>
 
+
 <table>
   <thead>
     <tr>
+
       <th>Id</th>
       <th>Tittle</th>
       <th>Context</th>
@@ -14,6 +16,11 @@
   <tbody>
     <% @post.each do |post| %>
       <tr>
+        <td>
+          <% if post.blog_pic.attached? %>
+            <%= image_tag post.blog_pic, height:'50px', width: '50px' %>
+          <% end %>
+        </td>
         <td><%= post.id %></td>
         <td><%= post.tittle %></td>
         <td><%= post.context %></td>
@@ -27,7 +34,9 @@
 <br>
 <div><%= flash[:notice] %></div>
 
-
+<div class="pagination">
+  <%= will_paginate @post %>
+</div>
 
 <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
 

@@ -1,32 +1,38 @@
 class CommentsController < ApplicationController
+  before_action :set_comment, only: %i[show destroy]
+  load_and_authorize_resource
+
   def new
     @comment = Comment.new
   end
 
   def create
-    @comment = current_user.comments.new(comment_params)
+    @post = Post.find_by(id: params[:post_id])
+    @comment = @post.comments.build(comment_params)
+    @comment.user = current_user
     if @comment.save
-      @post=Post.find(params[:post_id])
       redirect_to @post
     else
-      render :new, status: :unprocessable_entity
+      flash[:notice] = @comment.errors.full_messages
+      redirect_to @post, status: :unprocessable_entity
     end
   end
 
   def show
-    @comment = Comment.find(params[:id])
   end
 
   def edit
-    @comment =Comment.find(params[:id])
+    @post = Post.find_by(id: params[:post_id])
+    @comment = Comment.find_by(id: params[:id])
   end
 
   def update
-    @comment =Comment.find(params[:id])
+    @post = Post.find_by(id: params[:post_id])
+    @comment = @post.comments.find_by(id: params[:id])
     if @comment.update(comment_params)
-      redirect_to post_path
+      redirect_to @post, notice: 'Comment updated successfully.'
     else
-      render :edit, status: :unprocessable_entity
+      render 'edit'
     end
   end
 
@@ -35,16 +41,17 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment = Comment.find(params[:id])
     @comment.destroy
-
     redirect_to posts_path, status: :see_other
-
   end
 
   private
 
+  def set_comment
+    @comment = Comment.find_by(id: params[:id])
+  end
+
   def comment_params
-    params.permit(:context, :post_id )
+    params.require(:comment).permit(:context)
   end
 end

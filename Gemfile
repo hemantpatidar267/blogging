@@ -74,3 +74,5 @@ end
 gem "devise", "~> 4.9"
 gem "byebug"
 gem "activeadmin"
+gem 'will_paginate'
+gem 'cancancan'

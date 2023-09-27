@@ -1,6 +1,6 @@
 <h1>Post Create</h1>
-
-<%= form_with model: @post do |form| %>
+<p><%= flash[:notice] %></p>
+<%= form_with model: @post, html: { multipart: true } do |form| %>
 
   <div>
     <%= form.label :Tittle%><br>
@@ -11,6 +11,10 @@
     <%= form.label :Context %><br>
     <%= form.text_field :context %>
   </div>
+  <div>
+    <%= form.label :blog_pic %>
+    <%= form.file_field :blog_pic %>
+  </div>
 
   <div>
     <%= form.submit %>
@@ -19,4 +23,4 @@
 <% end %>
 
 <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
-<%= button_to "create", new_post_path, method: :get %>
+

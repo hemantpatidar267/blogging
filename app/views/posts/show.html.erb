@@ -1,42 +1,32 @@
-<strong>id: </strong> <%= @post.id %><br />
-<strong>Tittle: </strong> <%= @post.tittle %><br />
-<strong>Context: </strong> <%= @post.context %><br />
-<strong>User_id: </strong> <%= @post.user_id %><br />
-<td><%= link_to "edit", edit_post_path(@post) if current_user.id==@post.user_id || current_user.role=="admin" %></td>
-<li><%= link_to "Destroy", post_path(@post), data: {
-  turbo_method: :delete,
-  turbo_confirm: "Are you sure?"
-} if current_user.id==@post.user_id  || current_user.role=="admin" %></li>
-
-<h1>Comment</h1>
-<% if current_user.role=="user" %>
-
-  <%= form_with url:"/posts/#{@post.id}/comments" , method: :post  do |form| %>
-
-    <div>
-      <%= form.label :context%><br>
-      <%= form.text_field :context %>
-    </div>
-
-    <div>
-      <%= form.hidden_field :post_id, value: @post.id %>
-    </div>
-
-    <div>
-      <%= form.submit "comment" %>
-    </div>
-  <% end %>
-<% end %>
-
-<% @post.comments.each do |comment| %>
-  <strong>id: </strong> <%= comment.id %><br />
-  <strong>Context: </strong> <%= comment.context %><br />
-  <strong>Post_id: </strong> <%= comment.post_id %><br />
-
-  <td><%= link_to "edit", edit_post_comment_path(comment) if current_user.id==comment.user_id  || current_user.role=="admin" %></td>
-  <li><%= link_to "Destroy", post_comment_path(comment), data: {
+  <strong>id: </strong> <%= @post.id %> <br/>
+  <strong>Tittle: </strong> <%= @post.tittle %><br />
+  <strong>Context: </strong> <%= @post.context %><br />
+  <strong>User_id: </strong> <%= @post.user_id %><br />
+  <td><%= link_to "edit", edit_post_path(@post) if current_user.id==@post.user_id || current_user.role=="admin" %></td>
+  <td><%= link_to "Destroy", post_path(@post), data: {
     turbo_method: :delete,
     turbo_confirm: "Are you sure?"
-  } if current_user.id==comment.user_id  || current_user.role=="admin" %></li>
+  } if current_user.id==@post.user_id  || current_user.role=="admin" %></td>
 
-<% end %>
+  <h1>Comment</h1>
+  <% if current_user.role=="user" %>
+    <p><%= flash[:notice] %></p>
+    <%= form_with model: @comment, url: post_comments_path(@post) do |f| %>
+      <%= f.text_field :context, placeholder: 'Enter your comment here...' %>
+      <%= f.submit 'Create comment' %>
+    <% end %>
+  <% end %>
+  <hr>
+  <% @post.comments.each do |comment| %>
+    <strong>id: </strong> <%= comment.id %><br />
+    <strong>Context: </strong> <%= comment.context %><br />
+    <strong>Post_id: </strong> <%= comment.post_id %><br />
+
+    <td><%= link_to "edit", edit_post_comment_path(@post,comment) if current_user.id==comment.user_id  || current_user.role=="admin" %></td>
+    <td><%= link_to "Destroy", post_comment_path(@post,comment), data: {
+      turbo_method: :delete,
+      turbo_confirm: "Are you sure?"
+    } if current_user.id==comment.user_id  || current_user.role=="admin" %></td><br><hr>
+
+  <% end %>
+

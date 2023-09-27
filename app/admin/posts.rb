@@ -5,7 +5,7 @@ ActiveAdmin.register Post do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :tittle, :context, :user_id
+  permit_params :tittle, :context, :user_id, :blog_pic
   #
   # or
   #

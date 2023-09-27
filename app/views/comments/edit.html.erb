@@ -2,16 +2,13 @@
 
 
 
-<%= form_with model: @comment do |form| %>
+<%= form_for [@post, @comment] do |f| %>
 
-  <div>
-    <%= form.label :context%><br>
-    <%= form.text_field :context %>
+  <div class="field">
+    <%= f.label :context %>
+    <%= f.text_field :context %>
   </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-
+  <%= f.submit 'Update Comment' %>
 <% end %>
+
 
